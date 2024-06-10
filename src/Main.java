@@ -56,10 +56,80 @@ public class Main {
         System.out.println(list.peekLast());
         System.out.println(list);
     }
+    public static int linearSearch(int[] array, int val){
+        for(int i =0; i< array.length; ++i){
+            if(array[i] == val){
+                return i;
+            }
+        }
+        return -1;
+    }
+    private static int binarySearch(int[] array, int target){
+        int low = 0;
+        int high = array.length -1;
+        while(low <= high){
+            int middle = low + (high-low) / 2;
+            int value = array[middle];
+            System.out.println("Middle: " + value);
+            if(value < target)
+                low = middle + 1;
+            else if(value > target)
+                high = middle -1;
+            else
+                return middle;
+        }
+        return -1;
+    }
+    private static void binarySearchExample(){
+        int array[] = new int[1000000000];
+        int target = 999999999;
+        for(int i =0; i < array.length; ++i){
+            array[i] = i;
+        }
+        int index = binarySearch(array, target);
+        if(index == -1)
+            System.out.println(target + " not found");
+        else
+            System.out.println("Element found at: " + index);
+    }
+    private static int interpolationSearchExample(int[] array, int value){
+        int upper = array.length-1;
+        int low = 0;
+        while(value >= array[low] && value <= array[upper] && low <= upper){
+            int probe = low + (upper - low) * (value - array[low]) / (array[upper] - array[low]);
+            if(array[probe] == value) {
+                return probe;
+            }
+            else if (array[probe] < value) {
+                low = probe + 1;
+            }
+            else {
+                upper = probe - 1;
+            }
+        }
+        return -1;
+    }
     public static void main(String[] args) {
         testStack();
         testQueue();
         testPriorityQueue();
         linkedListTest();
+        dynamicArray dynamicArray = new dynamicArray();
+        dynamicArray.add("A");
+        dynamicArray.add("B");
+        dynamicArray.add("C");
+        dynamicArray.insert(3, "D");
+        dynamicArray.delete("D");
+        System.out.println(dynamicArray.search("B"));
+        System.out.println("Is the list empty? : " + dynamicArray.isEmpty());
+        System.out.println("Array size: " + dynamicArray.size);
+        System.out.println("Dynamic array capacity: " + dynamicArray.capacity);
+        System.out.println(dynamicArray);
+        int [] array = { 1, 2, 3, 4, 5, 6, 7, 9, 10 };
+        int index = interpolationSearchExample(array,3);
+        if(index != -1)
+            System.out.println("Element found at index: " + index);
+        else
+            System.out.println("Element not found");
     }
 }
